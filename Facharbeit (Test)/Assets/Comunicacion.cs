@@ -30,7 +30,7 @@ public class Comunicacion : MonoBehaviour
     }
     #endregion
 
-    SerialPort stream = new SerialPort("COM3", 9600);
+    SerialPort stream = new SerialPort("COM7", 9600);
     public string receivedstring;
     public GameObject carrito;
     public Vector3 rot;
@@ -44,7 +44,7 @@ public class Comunicacion : MonoBehaviour
         stream.Open(); //Open the Serial Stream.
     }
 
-    void Update()
+    public void read()
     {
         receivedstring = stream.ReadLine(); //Read the information
         stream.BaseStream.Flush(); //Clear the serial information so we assure we get new information.
@@ -52,10 +52,10 @@ public class Comunicacion : MonoBehaviour
         string[] datos = receivedstring.Split('|'); //My arduino script returns a 3 part value (IE: 12,30,18)
         if (datos[0] != "" && datos[1] != "" && datos[2] != "") //Check if all values are recieved
         {
+            Debug.Log("UPDATE");
             datos_recibidos[0] = datos[0];
             datos_recibidos[1] = datos[1];
             datos_recibidos[2] = datos[2];
-
 
             //Read the information and put it in a vector3
 

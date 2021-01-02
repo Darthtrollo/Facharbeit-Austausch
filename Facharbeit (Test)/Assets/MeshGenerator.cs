@@ -17,18 +17,26 @@ public class MeshGenerator : MonoBehaviour
     public Vector3 Position;
 
 
-    void Start()
+    private void Update()
     {
-        xPosition = float.Parse(Comunicacion.Instance.datos_recibidos[0]); // hier gibt es das Problem
-        yPosition = float.Parse(Comunicacion.Instance.datos_recibidos[1]);
-        mesh = new Mesh();
-        GetComponent<MeshFilter>().mesh = mesh;
-        CreateShape();
-        UpdateMesh();
-       // Debug.Log(mesh.vertices.Length);
-        mesh.vertices = vertices;
-        Debug.Log(xPosition);
-
+        Comunicacion.Instance.read();
+        if (Comunicacion.Instance.datos_recibidos[0] != "" && Comunicacion.Instance.datos_recibidos[1] != "")
+        {
+            Debug.Log("READ MESH");
+            xPosition = float.Parse(Comunicacion.Instance.datos_recibidos[0]); // hier gibt es das Problem
+            yPosition = float.Parse(Comunicacion.Instance.datos_recibidos[1]);
+            mesh = new Mesh();
+            GetComponent<MeshFilter>().mesh = mesh;
+            CreateShape();
+            UpdateMesh();
+            Debug.Log(mesh.vertices.Length);
+            mesh.vertices = vertices;
+            Debug.Log(xPosition);
+        }
+        else
+        {
+            Debug.Log("SKIP MESH");
+        }
     }
 
     void CreateShape()
