@@ -28,7 +28,7 @@ void loop() {
     if (counter == messwerteAnzahl) {
       counter = 0;
       Serial.print(mittelwert());   // print the distance
-      Serial.println("mm");
+      Serial.println(" mm");
       Serial.println("----------------");
     }
   }
