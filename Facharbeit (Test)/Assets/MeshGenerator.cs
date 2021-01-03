@@ -9,13 +9,19 @@ public class MeshGenerator : MonoBehaviour
     public float xPosition;
     public float yPosition;
     public float zPosition;
+    Vector3 edges;
 
-    Mesh mesh;
+    Mesh mesh;  
 
     Vector3[] vertices;
     int[] triangles;
     public Vector3 Position;
 
+
+    public void Start()
+    {
+        edges = new Vector3(xPosition, zPosition);
+    }
 
     private void Update()
     {
@@ -55,7 +61,8 @@ public class MeshGenerator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-       // wenn fehler mit String zu float convert behoben ist, kann man hier dann die Punkte anzeigen lassen.
+        Gizmos.DrawSphere(edges, .1f);
+
     }
 
 
