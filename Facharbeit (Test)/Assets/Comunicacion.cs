@@ -50,12 +50,13 @@ public class Comunicacion : MonoBehaviour
         stream.BaseStream.Flush(); //Clear the serial information so we assure we get new information.
 
         string[] datos = receivedstring.Split('|'); //My arduino script returns a 3 part value (IE: 12,30,18)
-        if (datos[0] != "" && datos[1] != "" && datos[2] != "") //Check if all values are recieved
+        if (datos[0] != "" && datos[1] != "" && datos[2] != "" && datos[3] != "") //Check if all values are recieved
         {
-            Debug.Log("UPDATE");
+            //Debug.Log("UPDATE");
             datos_recibidos[0] = datos[0];
             datos_recibidos[1] = datos[1];
             datos_recibidos[2] = datos[2];
+            datos_recibidos[3] = datos[3];
 
             //Read the information and put it in a vector3
 

@@ -397,6 +397,7 @@ MonoBehaviour:
   - 
   - 
   - 
+  - 
 --- !u!4 &1347634520
 Transform:
   m_ObjectHideFlags: 0
@@ -445,7 +446,7 @@ MonoBehaviour:
   xPosition: 0
   yPosition: 0
   zPosition: 0
-  Position: {x: 0, y: 0, z: 0}
+  Reihenfolge: 0
 --- !u!23 &1397615526
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -465,7 +466,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
