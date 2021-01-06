@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
@@ -10,55 +11,20 @@ public class MeshGenerator : MonoBehaviour
     public float xPosition;
     public float yPosition;
     public float zPosition;
-    public int Reihenfolge;
-    public static int xyMesswerte = 200;
-    public static int zMesswerte = 200;
+    public double xySteps;
+    public float abstand;
+    public int auflösung;
 
-    Vector3 vector;
+    public Vector3 vector;
     
     Mesh mesh;
 
-    int[] triangles;
-
-    public float[,,] CoordinateArray = new float[zMesswerte, xyMesswerte, 2];
-
-    //private List<Vector3> Coordinates = new List<Vector3>();
-    private List<Vector3> Dreickeeckpunkte = new List<Vector3>();
-
+    private List<Vector3> Punkte = new List<Vector3>();
+    private List<int> Dreickeeckpunkte = new List<int>();
 
     public void Start()
     {   
-        //Dreickeeckpunkte[0].x
-        //Koordinaten in Array einlesen
-        for (int i = 0; i < zMesswerte; i++)
-        {
-            for (int j = 0; i < xyMesswerte; i++)
-            {
-                if (CoordinateArray[i, j, 0] == 0)
-                {
-                    CoordinateArray[i, j, 0] = xPosition;
-                }                
-
-                if (CoordinateArray[i, j, 1] == 0)
-                {
-                    CoordinateArray[i, j, 1] = yPosition;
-                }
-            }
-        }
-
-        //Liste aller Dreieckspuinkte erstellen
-        for (int i = 0; i < zMesswerte; i++)
-        {
-            for (int j = 0; i < xyMesswerte; i++)
-            {
-                     
-            }
-        }
-
-        //Coordinates.Add(punkte);
-        //Coordinates.ToArray();        
-        //Dreickeeckpunkte.Add(Reihenfolge);
-        //Dreickeeckpunkte.ToArray();
+        //Setup
     }
 
 
@@ -68,55 +34,60 @@ public class MeshGenerator : MonoBehaviour
         Comunicacion.Instance.read();
         if (Comunicacion.Instance.datos_recibidos[1] != "" && Comunicacion.Instance.datos_recibidos[2] != "")
         {
-            //Debug.Log("READ MESH");
-            Reihenfolge = int.Parse(Comunicacion.Instance.datos_recibidos[0]);
-            xPosition = float.Parse(Comunicacion.Instance.datos_recibidos[1]);
-            yPosition = float.Parse(Comunicacion.Instance.datos_recibidos[2]);
-            zPosition = float.Parse(Comunicacion.Instance.datos_recibidos[3]);
-            //punkte = new Vector3(xPosition, yPosition, zPosition);
-           
-            mesh = new Mesh();
-            //GetComponent<MeshFilter>().mesh = mesh;
-            GetComponent<MeshFilter>().mesh = ConstructMesh();
-            //Debug.Log(mesh.vertices.Length);
-            //mesh.vertices = vertices;
-            //Debug.Log(xPosition);
+            auflösung = int.Parse(Comunicacion.Instance.datos_recibidos[1]);
+            abstand = float.Parse(Comunicacion.Instance.datos_recibidos[3]);
+            xySteps = double.Parse(Comunicacion.Instance.datos_recibidos[2]);
         }
-        else
-        {
-            //Debug.Log("SKIP MESH");
+
+        xPosition = (float)Math.Cos((xySteps * (360.0 / 800.0)) * (Math.PI / 180.0)) * (float)(17.0/75 - abstand/75);
+        yPosition = (float)Math.Sin((xySteps * (360.0 / 800.0)) * (Math.PI / 180.0)) * (float)(17.0/75 - abstand/75);
+        zPosition = Punkte.Count / auflösung;
+
+        Debug.Log(xPosition);
+        Debug.Log(yPosition);
+
+        vector.x = xPosition;
+        vector.y = zPosition;
+        vector.z = yPosition;
+
+        Punkte.Add(vector);
+
+        if (Punkte.Count > auflösung) {
+            Dreickeeckpunkte.Clear();
+            for (int i = 0; i < Punkte.Count - 1 - auflösung; i++)
+            {
+                Dreickeeckpunkte.Add( i );
+                Dreickeeckpunkte.Add( (i + 1) % auflösung + (i / auflösung) * auflösung );
+                Dreickeeckpunkte.Add( ((i + 1) % auflösung + (i / auflösung) * auflösung) + auflösung );
+
+                Dreickeeckpunkte.Add(i + auflösung);
+                Dreickeeckpunkte.Add( i );
+                Dreickeeckpunkte.Add(((i + 1) % auflösung + (i / auflösung) * auflösung) + auflösung);
+            }
         }
+
+        GetComponent<MeshFilter>().mesh = ConstructMesh();
     }
 
 
-
-
-   /* void CreateShape()
-    {
-        vertices = new Vector3[]
-        {
-          edges
-        };
-
-        triangles = new int[]
-        {
-            Reihenfolge
-
-        };
-    }*/
     public Mesh ConstructMesh()
     {
-        Mesh mesh = new Mesh
-        {
-            //vertices = Coordinates.ToArray(),
-            //triangles = Dreickeeckpunkte.ToArray()
-    };
+        Mesh mesh = new Mesh();
+        mesh.Clear();
+        mesh.vertices = Punkte.ToArray();
+        mesh.triangles = Dreickeeckpunkte.ToArray();
+
+        mesh.RecalculateBounds();
+        mesh.RecalculateNormals();
+        mesh.Optimize();
+
+        GetComponent<MeshFilter>().mesh = mesh;
 
         return mesh;
     }
 
 
-
+     
 }
 
 

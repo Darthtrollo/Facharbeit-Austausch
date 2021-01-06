@@ -53,10 +53,10 @@ public class Comunicacion : MonoBehaviour
         if (datos[0] != "" && datos[1] != "" && datos[2] != "" && datos[3] != "") //Check if all values are recieved
         {
             //Debug.Log("UPDATE");
-            datos_recibidos[0] = datos[0];
-            datos_recibidos[1] = datos[1];
-            datos_recibidos[2] = datos[2];
-            datos_recibidos[3] = datos[3];
+            datos_recibidos[0] = datos[0];  //1 = Programm läuft        0 = Programm kaputt
+            datos_recibidos[1] = datos[1];  //auflösung in Messwerte pro Umdrehung
+            datos_recibidos[2] = datos[2];  //Steps Motor XY
+            datos_recibidos[3] = datos[3];  //Abstand zum Objekt in mm
 
             //Read the information and put it in a vector3
 
