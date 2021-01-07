@@ -19,8 +19,8 @@ public class MeshGenerator : MonoBehaviour
     
     Mesh mesh;
 
-    private List<Vector3> Punkte = new List<Vector3>();
-    private List<int> Dreickeeckpunkte = new List<int>();
+    private List<Vector3> Punkte = new List<Vector3>(); //Liste von den Daten erstellen
+    private List<int> Dreickeeckpunkte = new List<int>(); //Liste für die Dreieckeckpunkte des Meshs
 
     public void Start()
     {   
@@ -31,22 +31,21 @@ public class MeshGenerator : MonoBehaviour
 
     private void Update()
     {
-        Comunicacion.Instance.read();
-        if (Comunicacion.Instance.datos_recibidos[1] != "" && Comunicacion.Instance.datos_recibidos[2] != "")
+        Datenübertragung.Instance.read();
+        if (Datenübertragung.Instance.erhaltene_Daten[1] != "" && Datenübertragung.Instance.erhaltene_Daten[2] != "")
         {
-            auflösung = int.Parse(Comunicacion.Instance.datos_recibidos[1]);
-            abstand = float.Parse(Comunicacion.Instance.datos_recibidos[3]);
-            xySteps = double.Parse(Comunicacion.Instance.datos_recibidos[2]);
+            auflösung = int.Parse(Datenübertragung.Instance.erhaltene_Daten[1]);
+            abstand = float.Parse(Datenübertragung.Instance.erhaltene_Daten[3]);
+            xySteps = double.Parse(Datenübertragung.Instance.erhaltene_Daten[2]);
         }
 
-        xPosition = (float)Math.Cos((xySteps * (360.0 / 800.0)) * (Math.PI / 180.0)) * (float)(17.0/75 - abstand/75);
-        yPosition = (float)Math.Sin((xySteps * (360.0 / 800.0)) * (Math.PI / 180.0)) * (float)(17.0/75 - abstand/75);
+        xPosition = (float)Math.Cos((xySteps * (360.0 / 800.0)) * (Math.PI / 180.0)) * (float)(17.0/75 - abstand/75); //Cos Rechnung zur Berechnung der Koordinaten
+        yPosition = (float)Math.Sin((xySteps * (360.0 / 800.0)) * (Math.PI / 180.0)) * (float)(17.0/75 - abstand/75); //Sin Rechnung zur Berechnung der Koordinaten
         zPosition = Punkte.Count / auflösung;
 
-        Debug.Log(xPosition);
-        Debug.Log(yPosition);
-
-        vector.x = xPosition;
+      
+       
+        vector.x = xPosition; //Daten nehmen und in Vector3 packen
         vector.y = zPosition;
         vector.z = yPosition;
 
@@ -74,8 +73,8 @@ public class MeshGenerator : MonoBehaviour
     {
         Mesh mesh = new Mesh();
         mesh.Clear();
-        mesh.vertices = Punkte.ToArray();
-        mesh.triangles = Dreickeeckpunkte.ToArray();
+        mesh.vertices = Punkte.ToArray();   //Liste zu Array
+        mesh.triangles = Dreickeeckpunkte.ToArray(); //Liste zu Array
 
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();

@@ -385,15 +385,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1347634518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff8109528c815034eb4b1c7a0f6a61e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 5bfe507b3f2d3244f8be5742d35bbe94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  receivedstring: 
-  carrito: {fileID: 0}
+  erhaltenerString: 
   rot: {x: 0, y: 0, z: 0}
   rot2: {x: 0, y: 0, z: 0}
-  datos: []
-  datos_recibidos:
+  daten: []
+  erhaltene_Daten:
   - 
   - 
   - 
@@ -469,7 +468,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
+  - {fileID: 2100000, guid: 128c77d45fde13b44a472c2ca05ee9e7, type: 2}
+  - {fileID: 2100000, guid: e317b15e8c675074db78ecf5fa84954e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
